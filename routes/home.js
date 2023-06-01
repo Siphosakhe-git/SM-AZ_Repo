@@ -5,7 +5,18 @@ var database = require('../database');
 
 //accept abstract
 router.post('/home',function(req,res){
-  res.redirect('hm');
+  query=`
+  SELECT * FROM conference
+  `;
+  database.query(query,function(error,data){
+    if(error){
+      res.send(error);
+    }
+    else{
+      req.session.allconf=data;
+      res.redirect('hm');
+    }
+  });
 });
 
 router.get('/hm',function(req,res){

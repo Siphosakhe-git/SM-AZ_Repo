@@ -53,10 +53,10 @@
                                     <%= (session.absAs)[i].USER_EMAIL %>
                                 </div>
     
-                                <% if(!((session.absAs)[i].USER_ID === session.user_id)){ %>
+                                <% if(!((session.absAs)[i].USER_ID === session.user_id) ){ %>
                                 <button type="submit" class="btn btn-primary mt-1" value="<%= (session.absAs)[i].USER_ID %>,<%= (session.absAs)[i].USER_EMAIL %>,<%= (session.absAs)[i].USER_NAME %>" name="members">Remove</button>
                                 <% } else{%>
-                                    <h3>Owner</h3>
+                                    <!-- <h3>Owner</h3> -->
                                 <% }%>
     
                             </div>

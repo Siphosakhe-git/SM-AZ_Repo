@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors')
 
 var session = require('express-session');
 
@@ -41,9 +42,14 @@ var editconfnameRouter = require('./routes/editconfname');
 var viewconfmembersRouter = require('./routes/viewconfmembers');
 var removePRouter = require('./routes/removeP');
 var homeRouter = require('./routes/home');
+var publishRouter = require('./routes/publish');
+var hideRouter = require('./routes/hide');
+var deletecRouter = require('./routes/deletec');
+var get_all_usersRouter = require('./routes/get_all_users');
 
 var app = express();
 
+app.use(cors({origin: "*"}))
 app.use(upload());
 app.use(express.static("public"));
 
@@ -94,6 +100,11 @@ app.use('/', editconfnameRouter);
 app.use('/', viewconfmembersRouter);
 app.use('/', removePRouter);
 app.use('/', homeRouter);
+app.use('/', publishRouter);
+app.use('/', hideRouter);
+app.use('/', deletecRouter);
+// app.use('/', get_all_usersRouter);
+app.get('/routes/get_all_users', get_all_usersRouter.get_all_users)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

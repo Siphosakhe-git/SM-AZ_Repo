@@ -26,7 +26,72 @@
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <script>
+                        const addorg = document.querySelector("#addorg");
+                        addorg.addEventListener("click",()=>{
+                            fetch("http://localhost:3000/routes/get_all_users", {
+                                method: "GET",
+                            }).then((response) => {
+                                if (response.status == 200) {
+                                    return response.json()
+                                }
+                            }).then((jsonResponse) => {
+                                if (sessionStorage.getItem('all_users') == null) {
+                                    var allUsers = jsonResponse
+                                    sessionStorage.setItem("all_users", JSON.stringify(allUsers))
+                                }
+                                fillAddMembersModalBody(jsonResponse)
+                            })
+                        });
+                        const memberSearchBar = document.querySelector("#memberSearchBar");
+                        memberSearchBar.addEventListener("input", e => {
+                            
+                            const value = e.target.value.toLowerCase()
+                            var allUsers = JSON.parse(sessionStorage.getItem('all_users'))
+                            var filteredUsers = allUsers.filter((user) => {
+                                return user.USER_NAME.toLowerCase().includes(value) || user.USER_EMAIL.toLowerCase().includes(value)
+                            });
+                            console.log(filteredUsers)
+                            fillAddMembersModalBody(filteredUsers)
+                        });
+
+                        function fillAddMembersModalBody(jsonResponse){
+                            const addMembersModal = document.querySelector("#addOrganiser")
+                            if (addMembersModal) {
+                                var addMembersModalBody = document.getElementById('add_members_modal_body')
+                                addMembersModalBody.innerHTML = ''
+
+                                for (let i = 0; i < JSON.parse(sessionStorage.getItem("all_users")).length; i++) {
+
+                                    var userElement = document.createElement('div')
+                                    userElement.setAttribute('class', 'bg-info container d-flex border-bottom py-3 my-4');
+
+                                    userElement.innerHTML = `
+                                        <form method="post" action="/addOrg">
+                                            <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                                <div class="col">
+                                                    <%= i %>
+                                                </div>
+                                                <div class="col">
+                                                    ${jsonResponse[i].USER_NAME}
+                                                </div>
+                                                <div class="col">
+                                                    ${jsonResponse[i].USER_EMAIL}
+                                                </div>
+                    
+                                                <button type="submit" class="btn btn-primary mt-1" value="${jsonResponse[i].USER_ID},${jsonResponse[i].USER_EMAIL},${jsonResponse[i].USER_NAME}" name="addOrg">Add to Organisers</button>
+                    
+                                            </div>
+                                        </form>
+                                    `
+
+                                    addMembersModalBody.appendChild(userElement)
+                                }
+                            }
+                        }
+
+                    </script>
+                    <div class="modal-body" id="add_members_modal_body">
                         <% for (var i = 0; i < (session.allUsers).length; i++){ %>
                             <% if(!((session.allUsers)[i].USER_ID === session.user_id)){ %>
                             <form method="post" action="/addOrg">

@@ -35,10 +35,8 @@
                     <form method="POST" action="/viewconf">
                         <% for (var conf in allconf) { %>
                         <li class="list-group-item d-flex justify-content-center align-content-center" style="height: 160px">
-                            <div name="confid" class="col-2 py-5"><%= allconf[conf].CONF_ID %></div>
                             <div name="confname" class="col-5 py-5"><%= allconf[conf].CONF_NAME %></div>
-                            <div name="conftype" class="col-3 py-5"><%= allconf[conf].CONF_MODE %></div>
-                            <input type="submit" value="<%= allconf[conf].CONF_ID %>" name="btn">
+                            <button type="submit" name="btn" value="<%= allconf[conf].CONF_ID %>" class="btn btn-secondary">View</button>
                         </li>
                         <% } %>
                     </form>
@@ -87,7 +85,25 @@
                 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
-                                    <button type="submit" id="homeCreateConfBtn" class="btn btn-secondary">Next</button>
+                                    <button type="submit" id="next" class="btn btn-secondary">Next</button>
+                                    <!-- <script>
+                                        const nextbtn = document.querySelector("#next");
+                                        nextbtn.addEventListener("click",()=>{
+                                            fetch("http://localhost:3000/routes/get_all_users", {
+                                                method: "GET",
+                                            }).then((response) => {
+                                                if (response.status == 200) {
+                                                    return response.json()
+                                                }
+                                            }).then((jsonResponse) => {
+                                                if (sessionStorage.getItem('all_users') == null) {
+                                                    var allUsers = jsonResponse
+                                                    sessionStorage.setItem("all_users", JSON.stringify(allUsers))
+                                                }
+                                                fillAddMembersModalBody(jsonResponse)
+                                            });
+                                        });
+                                    </script> -->
                                 </div>
                             </form>
                     </div>
