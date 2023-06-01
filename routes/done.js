@@ -4,6 +4,7 @@ var router = express.Router();
 var database = require('../database');
 
 //Done button in adding conf members
+//Done comment
 router.post('/done',(req,res,next)=>{
   var confid = req.session.confid;
 
