@@ -3,7 +3,7 @@ var router = express.Router();
 
 var database = require('../database');
 
-//editing conf name and type
+//editing conference name and conference  type
 router.post('/editconfname',(req,res,next)=>{
   var confid = req.session.confid;
   var confname =req.body.confname;
@@ -17,6 +17,7 @@ router.post('/editconfname',(req,res,next)=>{
     tquery =`
     UPDATE conference SET CONF_MODE="${confm}" WHERE CONF_ID = "${confid}"
     `;
+    //above queries allows the admin to edit a certain conference and data is updated on the database
 
     database.query(equery,function(error){
       if(error){
@@ -44,6 +45,8 @@ router.post('/editconfname',(req,res,next)=>{
     query = `
     SELECT * FROM conference WHERE CONF_ID = "${confid}"
     `;
+    //above queries return reuested data
+    
     database.query(query,(error,data)=>{
       if(error){
         res.send(error);
