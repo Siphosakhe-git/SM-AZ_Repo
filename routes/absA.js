@@ -6,6 +6,7 @@ var database = require('../database');
 //adding abstract authors
 router.post('/absA',function(req,res){
   var ainfo = (req.body.members).split(",");
+  //insert query to the database adding authors
   query =`
   INSERT INTO abs_authors (USER_ID, USER_NAME, USER_EMAIL, ABS_ID) VALUES ("${ainfo[0]}","${ainfo[2]}","${ainfo[1]}","${req.session.absId}")
   `;
@@ -14,6 +15,7 @@ router.post('/absA',function(req,res){
       res.send('Author Already Exists!');
     }
     else{
+      //getting all abstracts
       query1 = `
       SELECT * FROM conf_abstract WHERE ABS_ID ="${req.session.absId}"
       `;
@@ -23,6 +25,7 @@ router.post('/absA',function(req,res){
         }
         else{
           req.session.abs = data[0];
+          //getting all abstract authors 
           query2 = `
           SELECT * FROM abs_authors WHERE ABS_ID = "${req.session.absId}"
           `;
@@ -43,6 +46,7 @@ router.post('/absA',function(req,res){
 });
 
 router.get('/okay',function(req,res){
+  //rendering addAuth page
   res.render('addAuth',{session:req.session});
 });
 
