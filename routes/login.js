@@ -8,6 +8,7 @@ router.post('/login', function(request, response){
   var user_email = request.body.user_email;
   var user_pword = request.body.user_pword;
 
+  //checks entered information if it is on the database
   if(user_email && user_pword){
     query = `
     SELECT * FROM user WHERE USER_EMAIL = "${user_email}"
@@ -30,7 +31,7 @@ router.post('/login', function(request, response){
             database.query(query1,(error,data1)=>{
               if(error){
                 response.send(error);
-              }
+              }//returns an error message
               else{
                 request.session.allconf = data1;
                 query2 = `
@@ -50,21 +51,21 @@ router.post('/login', function(request, response){
                       request.session.isAd=0;
                     }
                     response.redirect('success');
-                  }
+                  }// if entered data is in the database
                 });
               }
             });
           }
           else{
             response.send('Incorrect Password!');
-          }
+          }//for incorrect password
 
         }
 
       }
       else{
         response.send('Incorrect Email Address!');
-      }
+      }//for incorrect email
     });
   }
   else{
