@@ -18,6 +18,6 @@ jobs:
           poetry install
           pyfiglet Continuous Integration
       - name: Run Coverage
-        run: coverage run tests.py
+        run: coverage run hello.py
       - name: Run CodeCov
         run: codecov --token=${{ secrets.codecov_token }}"
