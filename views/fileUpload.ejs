@@ -1,0 +1,244 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous"> <!--used CDN to get bootstrap(for css)-->
+    <title>Conference Management Tool</title> <!--title-->
+</head>
+<body>
+    <p class="text-info display-5 text-center">Conference Management Tool</p>
+    <p class="text-secondary display-6 text-center">Submission</p>
+
+    <section class="bg-light" style="width: 80%">
+        <div class="bg-info container d-flex border-bottom py-3 my-4">
+
+
+            <% if (!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1)) { %>
+                <% if (Date()>(session.conf).ABS_DUEDATE) { %>
+                <div>
+                    <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#addAbstract">Abstract</button>
+                </div>
+                <% }else{%>
+                <div>
+                    <p>Abstract Submission Closed</p>
+                </div>
+                <% }%>
+            <% }%>
+
+            <div class="modal" tabindex="-1" id="addAbstract" aria-labelledby="addAbstractModalLabel" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <form method="post" action="/abstract">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Abstract</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="addAbstractTextArea" class="form-label">Write your Abstract</label>
+                                <textarea name="abs" class="form-control" id="addAbstractTextArea" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="createSubmissionBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMembersModal">Next</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <% if ((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1) { %>
+            <div>
+                <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#as">View Submissions</button>
+            </div>
+            <% } %>
+
+            <% if (!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1)) { %>
+                <div>
+                    <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#useras">View Your Submission</button>
+                    
+                    <div class="modal fade modal-lg" id="useras" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="search-addon1">Name</span>
+                                        <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for paper..." aria-label="memberSearchBar" aria-describedby="search-addon1" search>
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="showabs">
+                                    <% for (var i = 0; i < (session.user_abs).length; i++){ %>
+                                        <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                            <div class="col">
+                                                <%= i+1 %>
+                                            </div>
+                                            <div class="col" absc>
+                                                <%= (session.user_abs)[i].ABS_CONTENT %>
+                                            </div>
+        
+                                            <form method="post" action="/viewabs">
+                                                <button type="submit" class="btn btn-primary mt-1" value="<%=(session.user_abs)[i].ABS_ID%>" name="viewabstract">View</button>
+                                            </form>
+        
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#homeCreateConfModal">Back</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <% } %>
+
+                <div>
+                    <form method="post" action="/viewconf">
+                        <button class="btn btn-secondary" name="btn" value="<%=session.confid%>" type="submit">View Conference</button>
+                    </form>
+                </div>
+
+            <div class="modal fade modal-lg" id="as" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="input-group">
+                                <span class="input-group-text" id="search-addon1">Name</span>
+                                <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for paper..." aria-label="memberSearchBar" aria-describedby="search-addon1" search>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="showabs">
+                            <% for (var i = 0; i < (session.as).length; i++){ %>
+                                <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                    <div class="col">
+                                        <%= (session.as)[i].ABS_ID %>
+                                    </div>
+                                    <div class="col" absc>
+                                        <%= (session.as)[i].ABS_CONTENT %>
+                                    </div>
+
+                                    <form method="post" action="/viewabs">
+                                        <button type="submit" class="btn btn-primary mt-1" value="<%=(session.as)[i].ABS_ID%>" name="viewabstract">View</button>
+                                    </form>
+
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#homeCreateConfModal">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade modal-lg" id="addMembersModal" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="input-group">
+                                <span class="input-group-text" id="search-addon1">Name</span>
+                                <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for a user..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <% for (var i = 0; i < (session.allUsers).length; i++){ %>
+                                <form method="post" action="/absA">
+                                    <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                        <div name="username" class="col">
+                                            <%= (session.allUsers)[i].USER_NAME %>
+                                        </div>
+                                        <div class="col">
+                                            <%= (session.allUsers)[i].USER_EMAIL %>
+                                        </div>
+                                        <div id="thisUserId" class="col">
+                                            <%= (session.allUsers)[i].USER_ID %>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary mt-1" value="<%= (session.allUsers)[i].USER_ID %>,<%= (session.allUsers)[i].USER_EMAIL %>,<%= (session.allUsers)[i].USER_NAME %>" name="members">Add to authors</button>
+
+                                    </div>
+                                </form>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addAbstract">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade modal-lg" id="addMembersModal" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="input-group">
+                                <span class="input-group-text" id="search-addon1">Name</span>
+                                <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for a user..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <% for (var i = 0; i < (session.allUsers).length; i++){ %>
+                                <form method="post" action="/absA">
+                                    <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                        <div name="username" class="col">
+                                            <%= (session.allUsers)[i].USER_NAME %>
+                                        </div>
+                                        <div class="col">
+                                            <%= (session.allUsers)[i].USER_EMAIL %>
+                                        </div>
+                                        <div id="thisUserId" class="col">
+                                            <%= (session.allUsers)[i].USER_ID %>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary mt-1" value="<%= (session.allUsers)[i].USER_ID %>,<%= (session.allUsers)[i].USER_EMAIL %>,<%= (session.allUsers)[i].USER_NAME %>" name="members">Add to authors</button>
+
+                                    </div>
+                                </form>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addAbstract">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="bg-light mt-5 tect-center" style="width: 20%">
+        <div id="forAbstract">
+            <h6>Abstract Due Date</h6>
+            <% if ((session.conf).ABS_DUEDATE) { %>
+                <h6 id="viewConfAbstDday"><%= (session.conf).ABS_DUEDATE %></h6>
+            <% } else { %>
+                <h4 id="viewConfAbstDday">No date set</h4>
+            <% } %>
+        </div>
+
+        <div id="forPaper" class="mt-5">
+            <h6>Paper Due Date</h6>
+            <% if ((session.conf).PAPER_DUEDATE) { %>
+                <h6 id="viewConfPaperDday"><%= (session.conf).PAPER_DUEDATE %></h6>
+            <% } else { %>
+                <h4 id="viewConfPaperDday">No date set</h4>
+            <% } %>
+        </div>
+    </section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous">
+</script> <!--Bootstrap for java-->
+
+</body>
+</html>

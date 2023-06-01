@@ -1,0 +1,306 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous"> <!--used CDN to get bootstrap(for css)-->
+    <title>Conference Management Tool</title> <!--title-->
+</head>
+<body>
+<p class="text-info display-5 text-center">Conference Management Tool</p>
+<p class="text-secondary display-6 text-center">Add Conference Members</p>
+
+<div>
+    <div class="col-2">
+        <% if ((session.isOrg)===1 || (session.isAd)===1) { %>
+        <button type="button" class="btn btn-primary mt-1" id="addorg" data-bs-toggle="modal" data-bs-target="#addOrganiser">Add Organiser</button>
+        <% }%>
+
+        <div class="modal fade modal-lg" id="addOrganiser" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="input-group">
+                            <span class="input-group-text" id="search-addon1">Name</span>
+                            <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for a user..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <% for (var i = 0; i < (session.allUsers).length; i++){ %>
+                            <% if(!((session.allUsers)[i].USER_ID === session.user_id)){ %>
+                            <form method="post" action="/addOrg">
+                                <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                    <div class="col">
+                                        <%= i %>
+                                    </div>
+                                    <div class="col">
+                                        <%= (session.allUsers)[i].USER_NAME %>
+                                    </div>
+                                    <div class="col">
+                                        <%= (session.allUsers)[i].USER_EMAIL %>
+                                    </div>
+        
+                                    <button type="submit" class="btn btn-primary mt-1" value="<%= (session.allUsers)[i].USER_ID %>,<%= (session.allUsers)[i].USER_EMAIL %>,<%= (session.allUsers)[i].USER_NAME %>" name="addOrg">Add to Organisers</button>
+        
+                                </div>
+                            </form>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-2">
+        <% if ((session.isOrg)===1 || (session.isAd)===1 || (session.isAc)===1) { %>
+        <button type="button" class="btn btn-primary mt-1" id="addorg" data-bs-toggle="modal" data-bs-target="#addac">Add AreaChair</button>
+        <% }%>
+
+        <div class="modal fade modal-lg" id="addac" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="input-group">
+                            <span class="input-group-text" id="search-addon1">Name</span>
+                            <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for a user..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <% for (var i = 0; i < (session.allUsers).length; i++){ %>
+                            <% if(!((session.allUsers)[i].USER_ID === session.user_id)){ %>
+                            <form method="post" action="/addac">
+                                <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                    <div class="col">
+                                        <%= i %>
+                                    </div>
+                                    <div class="col">
+                                        <%= (session.allUsers)[i].USER_NAME %>
+                                    </div>
+                                    <div class="col">
+                                        <%= (session.allUsers)[i].USER_EMAIL %>
+                                    </div>
+        
+                                    <button type="submit" class="btn btn-primary mt-1" value="<%= (session.allUsers)[i].USER_ID %>,<%= (session.allUsers)[i].USER_EMAIL %>,<%= (session.allUsers)[i].USER_NAME %>" name="addac">Add to AreaChairs</button>
+        
+                                </div>
+                            </form>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-2">
+        <% if ((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1) { %>
+        <button type="button" class="btn btn-primary mt-1" id="addorg" data-bs-toggle="modal" data-bs-target="#addrev">Add Reviewer</button>
+        <% }%>
+
+        <div class="modal fade modal-lg" id="addrev" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="input-group">
+                            <span class="input-group-text" id="search-addon1">Name</span>
+                            <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for a user..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <% for (var i = 0; i < (session.allUsers).length; i++){ %>
+                            <% if(!((session.allUsers)[i].USER_ID === session.user_id)){ %>
+                            <form method="post" action="/addR">
+                                <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                    <div class="col">
+                                        <%= i %>
+                                    </div>
+                                    <div class="col">
+                                        <%= (session.allUsers)[i].USER_NAME %>
+                                    </div>
+                                    <div class="col">
+                                        <%= (session.allUsers)[i].USER_EMAIL %>
+                                    </div>
+        
+                                    <button type="submit" class="btn btn-primary mt-1" value="<%= (session.allUsers)[i].USER_ID %>,<%= (session.allUsers)[i].USER_EMAIL %>,<%= (session.allUsers)[i].USER_NAME %>" name="addr">Add to Reviewers</button>
+        
+                                </div>
+                            </form>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+<div class="row justify-content-center mt-3">
+    <div class="col-10 d-flex justify-content-evenly col-8">
+        <% if ((session.isOrg)===1 || (session.isAd)===1) { %>
+        <div class="col text-center bg-info">
+            <h4>Organisers</h4>
+            <h5 id="numOfOrganisers"><%= (session.orgs).length%></h5>
+            <div class="col-2">
+                <button type="button" class="btn btn-primary mt-1" id="addorg" data-bs-toggle="modal" data-bs-target="#orgs">View</button>
+        
+                <div class="modal fade modal-lg" id="orgs" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="search-addon1">Name</span>
+                                    <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for paper..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <% for (var i = 0; i < (session.orgs).length; i++){ %>
+                                    <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                        <div class="col">
+                                            <%= (session.orgs)[i].USER_NAME %>
+                                        </div>
+                                        <div class="col">
+                                            <%= (session.orgs)[i].USER_EMAIL %>
+                                        </div>
+    
+                                        <form method="post" action="/removeO">
+                                            <button type="submit" class="btn btn-primary mt-1" value="<%=(session.orgs)[i].USER_ID%>" name="deleteorg">Remove</button>
+                                        </form>
+    
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        <% } %>
+        <% if ( (session.isOrg) === 1 || (session.isAd) === 1 || (session.isAc) === 1) { %>
+        <div class="col text-center bg-light">
+            <h4>Areachairs</h4>
+            <h5 id="numOfAreachair"><%= (session.ac).length%></h5>
+            <div class="col-2">
+                <button type="button" class="btn btn-primary mt-1" id="addorg" data-bs-toggle="modal" data-bs-target="#acs">View</button>
+        
+                <div class="modal fade modal-lg" id="acs" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="search-addon1">Name</span>
+                                    <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for paper..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <% for (var i = 0; i < (session.ac).length; i++){ %>
+                                    <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                        <div class="col">
+                                            <%= (session.ac)[i].USER_NAME %>
+                                        </div>
+                                        <div class="col">
+                                            <%= (session.ac)[i].USER_EMAIL %>
+                                        </div>
+    
+                                        <form method="post" action="/removeAc">
+                                            <button type="submit" class="btn btn-primary mt-1" value="<%=(session.ac)[i].USER_ID%>" name="deleteac">Remove</button>
+                                        </form>
+    
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        <% } %>
+        <% if ((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1) { %>
+        <div class="col text-center bg-success">
+            <h4>Reviewers</h4>
+            <h5 id="numOfReviewers"><%= (session.reviewers).length%></h5>
+            <div class="col-2">
+                <button type="button" class="btn btn-primary mt-1" id="addorg" data-bs-toggle="modal" data-bs-target="#revs">View</button>
+        
+                <div class="modal fade modal-lg" id="revs" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="search-addon1">Name</span>
+                                    <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for paper..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <% for (var i = 0; i < (session.reviewers).length; i++){ %>
+                                    <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                        <div class="col">
+                                            <%= (session.reviewers)[i].USER_NAME %>
+                                        </div>
+                                        <div class="col">
+                                            <%= (session.reviewers)[i].USER_EMAIL %>
+                                        </div>
+    
+                                        <form method="post" action="/removeR">
+                                            <button type="submit" class="btn btn-primary mt-1" value="<%=(session.reviewers)[i].USER_ID%>" name="deleterev">Remove</button>
+                                        </form>
+    
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<div>
+    <form method="post" action="/done">
+        <button class="btn btn-secondary" id="sub" type="submit">Done</button>
+    </form>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous">
+</script> <!--Bootstrap for java-->
+
+</body>
+</html>

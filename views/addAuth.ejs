@@ -1,0 +1,206 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous"> <!--used CDN to get bootstrap(for css)-->
+    <title>Conference Management Tool</title> <!--title-->
+    <style>
+        .box{
+            border: 2px solid #000;
+              padding: 15px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <p class="text-info display-5 text-center">Conference Management Tool</p>
+    <p class="text-secondary display-6 text-center">Abstract Submission</p>
+
+    <div class="box">
+        <div>
+            <div>
+                <% if ((session.abs)){ %>
+                    <h2>Abstract:</h2>
+                    <p><%= (session.abs).ABS_CONTENT %></p>
+                    <% } else{ %>
+                    <h2>Abstract:</h2>
+                    <p>No abstract content</p>
+                    <% } %>
+            </div>
+
+            <div>
+                <% if ((session.abs).ABS_STATUS === "Accepted" || (session.abs).ABS_STATUS === "Rejected"){ %>
+                <h2>Status:</h2>
+                <p><%= (session.abs).ABS_STATUS %></p>
+                <% }  else{ %>
+                    <h2>Status:</h2>
+                    <p>Submited For Review</p>
+                <% } %>
+            </div>
+
+            <div>
+
+                <% if ((session.absAs).length > 0) { %>
+                    <h2>Authors:</h2>
+                    <% for (var i = 0; i < (session.absAs).length; i++){ %>
+                        <form method="post" action="/removeA">
+                            <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                <div class="col">
+                                    <%= (session.absAs)[i].USER_NAME %>
+                                </div>
+                                <div class="col">
+                                    <%= (session.absAs)[i].USER_EMAIL %>
+                                </div>
+    
+                                <% if(!((session.absAs)[i].USER_ID === session.user_id)){ %>
+                                <button type="submit" class="btn btn-primary mt-1" value="<%= (session.absAs)[i].USER_ID %>,<%= (session.absAs)[i].USER_EMAIL %>,<%= (session.absAs)[i].USER_NAME %>" name="members">Remove</button>
+                                <% } else{%>
+                                    <h3>Owner</h3>
+                                <% }%>
+    
+                            </div>
+                        </form>
+                    <% } %>
+                <% } else{%>
+                    <h2>Authors:</h2>
+                    <p>No Authors</p>
+                <% } %>
+            </div>
+        </div>
+
+
+    <div>
+
+        <% if ((session.user_papers).length > 0) { %>
+            <h2>Paper Submissions:</h2>
+            <% for (var i = 0; i < (session.user_papers).length; i++){ %>
+                <form method="post" action="/removeP">
+                    <div class="bg-info container d-flex border-bottom py-3 my-4">
+                        <div class="col">
+                            <%= (session.user_papers)[i].PAPER_NAME %>
+                        </div>
+                        <div class="col">
+                            <%= (session.user_papers)[i].PAPER_WORDS %>
+                        </div>
+
+                        <% if(!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1)){ %>
+                        <button type="submit" class="btn btn-primary mt-1" value="<%= (session.user_papers)[i].PAPER_ID %>" name="paper">Delete</button>
+                        <% } %>
+                    </form>
+
+                        <form method="post" action="/downloadfile">
+                            <button class="btn btn-primary mt-1" value="<%= (session.user_papers)[i].PAPER_NAME %>" name="download" type="submit">Download</button>
+                        </form>
+
+    </div>
+                
+            <% } %>
+        <% } else{%>
+            <h2>Paper Submissions:</h2>
+            <p>No Papers</p>
+        <% } %>
+
+    <div>
+        <% if(!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1)){ %>
+        <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#addAbsAs">Add Author</button>
+        <% } %>
+    </div>
+
+    <% if (!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1)) { %>
+        <% if (Date()<(session.conf).PAPER_DUEDATE) { %>
+        <div>
+            <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#fileupload">Upload</button>
+        </div>
+        <% } else{ %>
+        <div>
+            <p>Paper Submission Closed</p>
+        </div>
+        <% } %>
+    <% } %>
+
+        <div class="modal fade modal-lg" id="fileupload" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    
+                        <div class="modal-header">
+                            <h5 class="modal-title">Upload Paper</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="modal-body" id="fileuploadModalbody">
+                            <form action="/Uploadfile" method="POST" enctype="multipart/form-data">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="confname-addon1">Paper Keywords</span>
+                                    <input type="text" name="pwords" class="form-control" placeholder="Paper keywords..." aria-label="Conferencename" aria-describedby="basic-addon1">
+                                </div>
+                                <input type="file" name="file"><br>
+                                <input type="submit" value="Upload">
+                            </form><br><br><br><br>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    <div>
+        <form method="post" action="/submission">
+            <button class="btn btn-secondary" id="sub" type="submit">Done</button>
+        </form>
+    </div>
+
+    <div class="modal fade modal-lg" id="addAbsAs" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="input-group">
+                        <span class="input-group-text" id="search-addon1">Name</span>
+                        <input type="text" id="memberSearchBar" class="form-control" placeholder="Search for paper..." aria-label="memberSearchBar" aria-describedby="search-addon1">
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <% for (var i = 0; i < (session.allUsers).length; i++){ %>
+                        <% if(!((session.allUsers)[i].USER_ID === session.user_id)){ %>
+                        <form method="post" action="/absA">
+                            <div class="bg-info container d-flex border-bottom py-3 my-4">
+                                <div class="col">
+                                    <%= (session.allUsers)[i].USER_NAME %>
+                                </div>
+                                <div class="col">
+                                    <%= (session.allUsers)[i].USER_EMAIL %>
+                                </div>
+    
+                                <button type="submit" class="btn btn-primary mt-1" value="<%= (session.allUsers)[i].USER_ID %>,<%= (session.allUsers)[i].USER_EMAIL %>,<%= (session.allUsers)[i].USER_NAME %>" name="members">Add to authors</button>
+    
+                            </div>
+                        </form>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#homeCreateConfModal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if ((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1) { %>
+        <div>
+            <form method="post" action="/accepta">
+                <button class="btn btn-secondary" id="sub" type="submit">Accept</button>
+            </form>
+            <form method="post" action="/rejecta">
+                <button class="btn btn-secondary" id="sub" type="submit">Reject</button>
+            </form>
+        </div>
+    <% } %>
+    </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous">
+</script> <!--Bootstrap for java-->
+
+</body>
+</html>
