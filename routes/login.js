@@ -8,7 +8,7 @@ router.post('/login', function(request, response){
   var user_email = request.body.user_email;
   var user_pword = request.body.user_pword;
 
-  //checks entered information if it is on the database
+  //checks if entered information is on the database
   if(user_email && user_pword){
     query = `
     SELECT * FROM user WHERE USER_EMAIL = "${user_email}"
