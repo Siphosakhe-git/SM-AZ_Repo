@@ -9,7 +9,7 @@ router.post('/removeP',function(req,res){
   var absId = req.session.absId;
   query =`
   DELETE FROM paper WHERE PAPER_ID = "${paperid}"
-  `;
+  `;//the query to delete a paper that was submitted
   database.query(query,function(error){
     if(error){
       res.send(error);
