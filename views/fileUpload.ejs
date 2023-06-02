@@ -73,9 +73,6 @@
                                 <div class="modal-body" id="showabs">
                                     <% for (var i = 0; i < (session.user_abs).length; i++){ %>
                                         <div class="bg-info container d-flex border-bottom py-3 my-4">
-                                            <div class="col">
-                                                <%= i+1 %>
-                                            </div>
                                             <div class="col" absc>
                                                 <%= (session.user_abs)[i].ABS_CONTENT %>
                                             </div>
@@ -116,9 +113,6 @@
                         <div class="modal-body" id="showabs">
                             <% for (var i = 0; i < (session.as).length; i++){ %>
                                 <div class="bg-info container d-flex border-bottom py-3 my-4">
-                                    <div class="col">
-                                        <%= (session.as)[i].ABS_ID %>
-                                    </div>
                                     <div class="col" absc>
                                         <%= (session.as)[i].ABS_CONTENT %>
                                     </div>
