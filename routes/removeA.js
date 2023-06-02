@@ -9,7 +9,7 @@ router.post('/removeA',function(req,res){
   var absId = req.session.absId;
   query =`
   DELETE FROM abs_authors WHERE USER_ID = "${ainfo[0]}" AND ABS_ID = "${absId}"
-  `;//the query to delete relevant data from database
+  `;//the query to delete an author from database
   database.query(query,function(error){
     if(error){
       res.send(error);
