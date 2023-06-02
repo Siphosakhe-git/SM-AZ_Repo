@@ -8,7 +8,7 @@ router.get('/fileUpload',(req,res)=>{
 });
 
 
-//uploading a file
+//uploading a file in a form of a pdf
 router.post('/Uploadfile',(req,res)=>{
   if(req.files && req.body.pwords){
     //console.log(req.files);
@@ -24,7 +24,7 @@ router.post('/Uploadfile',(req,res)=>{
         var filepath = 'public/uploads/'+filename;
         query =`
         INSERT INTO paper(PAPER_NAME,CONF_ID,PAPER_WORDS,ABS_ID) VALUES ("${filename}","${req.session.confid}","${req.body.pwords}","${req.session.absId}")
-        `;
+        `;//relevant data is inserted through this query
         database.query(query,function(error){
           if(error){
             res.send(error);
