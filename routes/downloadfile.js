@@ -3,7 +3,7 @@ var router = express.Router();
 
 var database = require('../database');
 
-//downloading file
+//downloading a submitted file
 router.post("/downloadfile",(req,res)=>{
   var filename = req.body.download;
   req.session.filename=filename;
