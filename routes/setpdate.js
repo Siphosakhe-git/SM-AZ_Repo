@@ -11,7 +11,7 @@ router.post('/setpdate',(req,res)=>{
   if(datetime){
     query =`
     UPDATE conference SET PAPER_DUEDATE="${datetime}" WHERE CONF_ID = "${confid}"
-    `;
+    `;//this query allows you to change due date of the paper submission to a date of your choice
     database.query(query,(error)=>{
       if(error){
         res.send(error);
