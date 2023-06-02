@@ -5,8 +5,8 @@ const router = require('./index');
 describe('GET /', () => {
   it('should render the login page', async () => {
     const app = express();
-    app.set('view engine', 'ejs'); // Assuming you're using EJS as the template engine
-    app.set('views', __dirname + '/views'); // Assuming your views directory is './views'
+    app.set('view engine', 'ejs'); // Assuming you are using EJS as the template engine
+    app.set('views', __dirname + '/views'); // Assuming your views directory is ./views
     app.use('/', router);
 
     const response = await request(app).get('/');
