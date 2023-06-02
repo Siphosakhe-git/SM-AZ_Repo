@@ -3,7 +3,7 @@ var router = express.Router();
 
 var database = require('../database');
 
-//hide conference
+//hide conference from users. only admins can do that
 router.post('/hide',function(req,res){
   queryp=`
   UPDATE conference SET CONF_STATUS="1" WHERE CONF_ID="${req.session.confid}"

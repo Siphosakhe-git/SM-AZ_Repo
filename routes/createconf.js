@@ -14,7 +14,7 @@ router.post('/createconf',function(req,res){
   if(confname && confsumm && confwords && confm){
     query =`
     INSERT INTO conference (CONF_NAME,CONF_MODE,CONF_SUMMARY,CONF_KEYWORDS) VALUES ("${confname}","${confm}","${confsumm}","${confwords}")
-    `;
+    `;//add all provided data in the conference table on the database
     database.query(query,function(error,data){
       if(error){
         res.send(error);

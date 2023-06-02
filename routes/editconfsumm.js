@@ -12,7 +12,7 @@ router.post('/editconfsumm',(req,res,next)=>{
 
     equery =`
     UPDATE conference SET CONF_SUMMARY="${confsumm}" WHERE CONF_ID = "${confid}"
-    `;
+    `; //above query allows the admin to edit conference summary regarding the conference
 
     database.query(equery,function(error){
       if(error){
@@ -22,19 +22,19 @@ router.post('/editconfsumm',(req,res,next)=>{
 
     oquery = `
     SELECT * FROM organiser WHERE CONF_ID = "${confid}" and USER_ID = "${req.session.user_id}"
-    `;
+    `;//get relevant data
 
     aquery = `
     SELECT * FROM areachair WHERE CONF_ID = "${confid}" and USER_ID = "${req.session.user_id}"
-    `;
+    `;//get relevant data
 
     rquery = `
     SELECT * FROM reviewer WHERE CONF_ID = "${confid}" and USER_ID = "${req.session.user_id}"
-    `;
+    `;//get relevant data
 
     query = `
     SELECT * FROM conference WHERE CONF_ID = "${confid}"
-    `;
+    `;//get relevant data
     database.query(query,(error,data)=>{
       if(error){
         res.send(error);

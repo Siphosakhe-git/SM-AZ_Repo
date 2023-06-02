@@ -3,7 +3,7 @@ var router = express.Router();
 
 var database = require('../database');
 
-//accept abstract
+//accept the abstract submitted
 router.post('/accepta',function(req,res){
   query =`
   UPDATE conf_abstract SET ABS_STATUS="Accepted" WHERE ABS_ID = "${req.session.absId}"
@@ -15,7 +15,7 @@ router.post('/accepta',function(req,res){
     else{
       query1 =`
       SELECT * FROM conf_abstract WHERE ABS_ID = "${req.session.absId}"
-      `;
+      `;//get relevant data from database
       database.query(query1,function(error,data){
         if(error){
           res.send(error);

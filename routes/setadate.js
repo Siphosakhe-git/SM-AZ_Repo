@@ -12,7 +12,7 @@ router.post('/setadate',(req,res)=>{
   if(datetime){
     query =`
     UPDATE conference SET ABS_DUEDATE="${datetime}" WHERE CONF_ID = "${confid}"
-    `;
+    `;//this query allows you to change abstract due date to a date of your choice
     database.query(query,(error)=>{
       if(error){
         res.send(error);

@@ -10,11 +10,12 @@ router.post('/signup', function(request, response, next){
   var user_domain = request.body.user_domain;
   var user_pword = request.body.user_pword;
   var cpword = request.body.cpword;
+  //above are the user details
 
   if(user_name && user_email && user_domain && user_pword && cpword){
     query = `
     INSERT INTO user (USER_EMAIL,USER_PWORD,USER_NAME,USER_DOMAIN) VALUES("${user_email}","${user_pword}","${user_name}","${user_domain}")
-    `;
+    `;//the entered information is saved in the database
 
     if(user_pword == cpword){
       database.query(query,function(error){

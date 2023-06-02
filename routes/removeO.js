@@ -9,7 +9,7 @@ router.post('/removeO',function(req,res){
   var confid = req.session.confid;
   query =`
   DELETE FROM organiser WHERE USER_ID = "${orgid}" AND CONF_ID = "${confid}"
-  `;
+  `;//the query to delete an organiser from a conference
   database.query(query,function(error){
     if(error){
       res.send(error);

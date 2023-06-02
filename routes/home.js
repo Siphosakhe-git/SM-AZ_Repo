@@ -3,7 +3,7 @@ var router = express.Router();
 
 var database = require('../database');
 
-//accept abstract
+
 router.post('/home',function(req,res){
   query=`
   SELECT * FROM conference
