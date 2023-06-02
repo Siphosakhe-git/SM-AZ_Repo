@@ -2,12 +2,12 @@ const request = require('supertest');
 const express = require('express');
 const router = require('./signup');
 
-// Mock the database module
+// Make a mock of the database module
 jest.mock('../database', () => ({
   query: jest.fn((query, callback) => {
-    // Simulate successful query execution
+    // Simulatea  successful query execution
     if (query.includes('INSERT INTO user')) {
-      callback(null); // No error
+      callback(null); // No error found
     }
    
   }),
@@ -29,7 +29,7 @@ describe('POST /signup', () => {
         cpword: 'password',
       });
 
-    // Verify the response
+    // Verification the response
     expect(response.status).toBe(200);
     expect(response.text).toBe('Account Created! Need to fill Area of Expertise Form.');
   });
@@ -49,7 +49,7 @@ describe('POST /signup', () => {
         cpword: 'incorrect',
       });
 
-    // Verify the response
+    // Verification the response
     expect(response.status).toBe(200);
     expect(response.text).toBe('Password does not match!');
   });
