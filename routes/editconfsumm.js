@@ -12,7 +12,7 @@ router.post('/editconfsumm',(req,res,next)=>{
 
     equery =`
     UPDATE conference SET CONF_SUMMARY="${confsumm}" WHERE CONF_ID = "${confid}"
-    `; //above queriy allows the admin to edit conference summary regarding the conference
+    `; //above query allows the admin to edit conference summary regarding the conference
 
     database.query(equery,function(error){
       if(error){
