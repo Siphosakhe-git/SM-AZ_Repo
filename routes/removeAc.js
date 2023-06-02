@@ -9,7 +9,7 @@ router.post('/removeAc',function(req,res){
   var confid = req.session.confid;
   query =`
   DELETE FROM areachair WHERE USER_ID = "${acid}" AND CONF_ID = "${confid}"
-  `;
+  `;//the query to delete anarea chair from a certain conference
   database.query(query,function(error){
     if(error){
       res.send(error);
