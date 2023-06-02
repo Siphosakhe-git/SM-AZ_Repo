@@ -8,16 +8,16 @@ router.post('/deletec',function(req,res){
   var confid = req.session.confid;
   queryo =`
   DELETE FROM organiser WHERE CONF_ID = "${confid}"
-  `;
+  `;//the assigned organiser is removed
   querya =`
   DELETE FROM areachair WHERE CONF_ID = "${confid}"
-  `;
+  `;//the assigned area chair is removed
   queryr =`
   DELETE FROM reviewer WHERE CONF_ID = "${confid}"
-  `;
+  `;//the assigned reviewer is removed
   queryabs =`
   DELETE FROM conf_abstract WHERE CONF_ID = "${confid}"
-  `;
+  `;//the the abstract that was submitted is removed
   database.query(queryo,function(error){
     if(error){
         res.send(error);
@@ -40,7 +40,7 @@ router.post('/deletec',function(req,res){
   });
   queryc =`
   DELETE FROM conference WHERE CONF_ID = "${confid}"
-  `;
+  `;//the selected conference is deleted
   database.query(queryc,function(error){
     if(error){
         res.send(error);
