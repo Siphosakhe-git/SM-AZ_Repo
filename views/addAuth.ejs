@@ -53,10 +53,10 @@
                                     <%= (session.absAs)[i].USER_EMAIL %>
                                 </div>
     
-                                <% if(!((session.absAs)[i].USER_ID === session.user_id) ){ %>
+                                <% if(!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1) && !((session.absAs)[i].USER_ID === session.user_id)){ %>
                                 <button type="submit" class="btn btn-primary mt-1" value="<%= (session.absAs)[i].USER_ID %>,<%= (session.absAs)[i].USER_EMAIL %>,<%= (session.absAs)[i].USER_NAME %>" name="members">Remove</button>
-                                <% } else{%>
-                                    <!-- <h3>Owner</h3> -->
+                                <% } else if((session.absAs)[i].USER_ID === (session.abs).USER_ID){%>
+                                    <h3>Owner</h3>
                                 <% }%>
     
                             </div>
@@ -108,9 +108,9 @@
     </div>
 
     <% if (!((session.isOrg)===1 || (session.isAd)===1 || (session.isR)===1 || (session.isAc)===1)) { %>
-        <% if (Date()<(session.conf).PAPER_DUEDATE) { %>
+        <% if (Date()>(session.conf).PAPER_DUEDATE) { %>
         <div>
-            <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#fileupload">Upload</button>
+            <button class="btn btn-secondary" id="sub" type="button" data-bs-toggle="modal" data-bs-target="#fileupload">Upload Paper</button>
         </div>
         <% } else{ %>
         <div>

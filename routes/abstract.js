@@ -6,6 +6,7 @@ var database = require('../database');
 //Abstract submission
 router.post('/abstract',function(req,res){
   var abs = req.body.abs;
+  //making a new abstract
   query =`
   INSERT INTO conf_abstract (CONF_ID,ABS_CONTENT,USER_ID) VALUES ("${req.session.confid}","${abs}","${req.session.user_id}")
   `;
@@ -16,6 +17,7 @@ router.post('/abstract',function(req,res){
       }
       else{
         req.session.absId = data.insertId;
+        //inserting the owner of the abstract as an author
         queryA =`
         INSERT INTO abs_authors (USER_ID, USER_NAME, USER_EMAIL, ABS_ID) VALUES ("${req.session.user_id}","${req.session.user_name}","${req.session.user_email}","${req.session.absId}")
         `;
@@ -24,8 +26,7 @@ router.post('/abstract',function(req,res){
             res.send(error);
           }
         });
-        //res.end();
-        //res.send(res);
+        //getting the new abstract
         query1 = `
         SELECT * FROM conf_abstract WHERE ABS_ID ="${req.session.absId}"
         `;
@@ -35,7 +36,7 @@ router.post('/abstract',function(req,res){
           }
           else{
             req.session.abs = data[0];
-
+            //getting the authors of the abtstract
             query2 = `
             SELECT * FROM abs_authors WHERE ABS_ID = "${req.session.absId}"
             `;
@@ -45,7 +46,7 @@ router.post('/abstract',function(req,res){
               }
               else{
                 req.session.absAs=datau;
-                //res.send(req.session.allUsers)
+                //redirecting to  the /valid get method
                 res.redirect('valid');
               }
             });
@@ -60,6 +61,7 @@ router.post('/abstract',function(req,res){
 });
 
 router.get('/valid',function(req,res){
+  //rendering the addAuth page
   res.render('addAuth',{session:req.session});
 });
 
