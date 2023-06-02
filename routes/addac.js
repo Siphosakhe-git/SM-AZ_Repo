@@ -8,7 +8,7 @@ router.post('/addac',function(req,res){
   var ainfo = (req.body.addac).split(",");
   query =`
   INSERT INTO areachair (CONF_ID,USER_ID, USER_NAME, USER_EMAIL) VALUES ("${req.session.confid}","${ainfo[0]}","${ainfo[2]}","${ainfo[1]}")
-  `;
+  `;//inserting the added person by the admin as an area chair
   database.query(query,function(error){
     if(error){
       res.send('Area Chair Already Added!');
@@ -25,7 +25,7 @@ router.post('/addac',function(req,res){
           req.session.orgs = data;
           query2 = `
           SELECT * FROM areachair WHERE CONF_ID ="${req.session.confid}"
-          `;
+          `;//get the relevant data
           database.query(query2,(error,dataa)=>{
             if(error){
               res.send(error);
@@ -34,7 +34,7 @@ router.post('/addac',function(req,res){
               req.session.ac = dataa;
               query3 = `
               SELECT * FROM reviewer WHERE CONF_ID ="${req.session.confid}"
-              `;
+              `;//get the relevant data
               database.query(query3,(error,datar)=>{
                 if(error){
                   res.send(error);
