@@ -46,10 +46,10 @@ jest.mock('../database', () => ({
       // Verify the response
       expect(response.status).toBe(200);
       expect(response.header.location).toBe('/accept');
-      // You can also check the session or other data if needed
+      // You can also check the session or other data if needs be
     });
   
-    // Add more test cases to cover different scenarios
+    // Add more test cases to cover for different scenarios
   });
   
   describe('GET /accept', () => {
@@ -59,7 +59,7 @@ jest.mock('../database', () => ({
   
       const response = await request(app).get('/accept');
   
-      // Verify the response
+      // Verification of the response
       expect(response.status).toBe(200);
       // You can check the rendered template or other data if needed
     });
