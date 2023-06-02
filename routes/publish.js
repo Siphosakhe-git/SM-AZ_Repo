@@ -3,7 +3,7 @@ var router = express.Router();
 
 var database = require('../database');
 
-//publish conference
+//publish conference to users
 router.post('/publish',function(req,res){
   queryp=`
   UPDATE conference SET CONF_STATUS="0" WHERE CONF_ID="${req.session.confid}"
